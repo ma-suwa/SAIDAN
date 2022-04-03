@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  #container {
+    position: relative;
+    z-index: 2;
+    display:flex;
+    flex-flow: column;
+    margin: 0 auto;
+    width: 25vw;
+    font-size: 0;
+    /*container内のwhite-spaceを無効化*/
+    height: 100%;
+  }
+
+  #container img{
+      width: 100%;
+      margin-top: 20px;
+  }
+
+  #drop-zone {
+    position: absolute;
+    z-index: 1;
+    margin: 0 auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 75vw;
+    height: 75vh;
+    border: 1px dashed #cacaca;
+    
+    background-color: #FAFAFA;
+  }
+
+  #drop-zone > p{
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    letter-spacing: 0.2em;
+    font-size: 20px;
+  }
+  
+
+
+  .tp-dfwv{
+    z-index: 4;
+  }
+  /*
+  #container img{
+    margin:1px;
+  }
+  */
+  
