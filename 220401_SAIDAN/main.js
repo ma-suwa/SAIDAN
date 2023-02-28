@@ -6,33 +6,54 @@ function init(){
 
   //分割パラメーター
   const PARAMS = {
-    split: 3
+    split: 3,
+    offset: 0
   };
   const pane = new Tweakpane.Pane();
+
   pane.addInput(PARAMS, 'split',{min: 0, max: 10, step: 1})
   .on('change', (ev) => {
     if(ev.last){
       //img全削除
       allImgRemove();
-      saidan(image,PARAMS.split);
+      saidan(image,PARAMS.split,PARAMS.offset);
+    }
+  });
+
+  pane.addInput(PARAMS, 'offset',{min: 0, max: 2000, step: 1})
+  .on('change', (ev) => {
+    if(ev.last){
+      //img全削除
+      allImgRemove();
+      saidan(image,PARAMS.split,PARAMS.offset);
     }
   });
 
   //ドラッグオンドロップ
+  let container = document.getElementById('imgBox');
 	let dropZone = document.getElementById('drop-zone');
+  container.addEventListener('dragover', () => {
+    dropZone.style.zIndex =99;
+    container.style.zIndex = 1;
+	});
 	dropZone.addEventListener('dragover', (event) => {
+    console.log("dragover");
 		event.stopPropagation();
 		event.preventDefault();
-		// Style the drag-and-drop as a "copy file" operation.
 		event.dataTransfer.dropEffect = 'copy';
-    dropZone.style.opacity = 0.5;
+    dropZone.style.opacity = 0.8;
 	});
 	dropZone.addEventListener('drop', (event) => {
+    console.log("drop");
 		event.stopPropagation();
 		event.preventDefault();
 		const fileList = event.dataTransfer.files;
-		loadLocalImage(fileList, PARAMS)
+		loadLocalImage(fileList, PARAMS);
+    
     dropZone.style.opacity = 0;
+    dropZone.style.zIndex =1;
+    container.style.zIndex = 99;
+    console.log( container.style.zIndex, dropZone.style.zIndex)
 	});
 
 
@@ -59,10 +80,9 @@ function loadLocalImage(e, PARAMS) {
     image.crossOrigin= 'Anonymous';
     image.src= reader.result;
     
-    
     //画像読み込んだら裁断
     image.onload= function(){
-        saidan(image,PARAMS.split);
+        saidan(image,PARAMS.split,PARAMS.offset);
     }
 	}
 	// ファイル読み込みを実行
@@ -72,7 +92,7 @@ function loadLocalImage(e, PARAMS) {
 
 
 //裁断処理
-function saidan(image,split){
+function saidan(image,split,offset){
     const sprite= {
         width:image.width,
         height:image.height/split
@@ -85,17 +105,18 @@ function saidan(image,split){
   
     for(let i=0; i*sprite.height < image.height; i++){
       for(let j=0; j*sprite.width < image.width; j++){
-        context.drawImage(
-          image,
-          j*sprite.width,
-          i*sprite.height,
-          sprite.width,
-          sprite.height,
-          0,
-          0,
-          sprite.width,
-          sprite.height
-        )
+          context.drawImage(
+            image,
+            j*sprite.width,
+            i*sprite.height+offset,
+            sprite.width,
+            sprite.height+offset,
+            0,
+            0,
+            sprite.width,
+            sprite.height+offset
+          )
+
   
         let spriteElement = new Image();
         spriteElement.src = canvas.toDataURL('jpg');
@@ -103,7 +124,7 @@ function saidan(image,split){
         // spriteElement.name = image.name + "";
         console.log(spriteElement);
   
-        document.querySelector('#container').appendChild(spriteElement)
+        document.querySelector('#imgBox').appendChild(spriteElement)
       }
     }
       
@@ -111,7 +132,7 @@ function saidan(image,split){
 
 function allImgRemove(){
     //img全削除
-    const parent = document.getElementById('container');
+    const parent = document.getElementById('imgBox');
     while(parent.firstChild){
       parent.removeChild(parent.firstChild);
     }
