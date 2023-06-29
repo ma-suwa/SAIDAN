@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAIDAN | 縦長画像を分割するツール</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal.css">
+    <script src="lib/tweakpane-3.0.8.min.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1 id="logo">
+        <img src ="assets/logo.svg" width="180"/>
+    </h1>
+
+    <button id="modalOpen" class="button">使い方</button>
+
+    <div id="easyModal" class="modal">
+    <span class="modalClose"></span>
+    <div class="modal-content">
+        <div class="modal-body">
+            <h2><span class="plus">😢</span><br>WEBデザイン・構成のような縦長の画像は<br>資料にいれると画質が荒れてしまう...</h2>
+            <h3><span class="plus">😃</span><br><strong>そんな時は"SAIDAN"で画像を分割することで<br>画質の低下を防ぎます!</strong></h3>
+            <p>①資料にいれたい画像をドラッグアンドドロップで追加しよう！</p>
+            <p>②分割された画像を右クリックでコピーして、資料に添付しよう！</p>
+            <p>③SPLITで分割数をOFFSETで位置を調整してトリミング位置を調節しよう!</p>
+        </div>
+    </div>
+    </div>
+
+
+    <div id="container">
+        <div id="imgBox"></div>
+    </div>
+
+    <div id="drop-zone"><p>分割したい画像をドロップ！</p></div>
+
+    <script src="modal.js"></script>
+
+</body>
+</html>
