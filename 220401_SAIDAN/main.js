@@ -20,7 +20,7 @@ function init(){
     }
   });
 
-  pane.addInput(PARAMS, 'offset',{min: 0, max: 2000, step: 1})
+  pane.addInput(PARAMS, 'offset',{min: -2000, max: 2000, step: 1})
   .on('change', (ev) => {
     if(ev.last){
       //img全削除
@@ -97,32 +97,31 @@ function saidan(image,split,offset){
         width:image.width,
         height:image.height/split
       }
-    const canvas= document.createElement('canvas')
-    canvas.width= sprite.width
-    canvas.height= sprite.height
+    const canvas = document.createElement('canvas');
+    canvas.width = sprite.width;
+    canvas.height = sprite.height;
   
     const context= canvas.getContext('2d')
-  
+      //drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
     for(let i=0; i*sprite.height < image.height; i++){
       for(let j=0; j*sprite.width < image.width; j++){
-          context.drawImage(
-            image,
-            j*sprite.width,
-            i*sprite.height+offset,
-            sprite.width,
-            sprite.height+offset,
-            0,
-            0,
-            sprite.width,
-            sprite.height+offset
-          )
 
-  
+            context.drawImage(
+              image,
+              j*sprite.width,
+              i*sprite.height-offset*split,
+              sprite.width,
+              sprite.height,
+              0,
+              0,
+              sprite.width,
+              sprite.height
+            )
+
         let spriteElement = new Image();
         spriteElement.src = canvas.toDataURL('jpg');
         spriteElement.download = "sample.jpg";
-        // spriteElement.name = image.name + "";
-        console.log(spriteElement);
+
   
         document.querySelector('#imgBox').appendChild(spriteElement)
       }
@@ -137,3 +136,5 @@ function allImgRemove(){
       parent.removeChild(parent.firstChild);
     }
 }
+
+

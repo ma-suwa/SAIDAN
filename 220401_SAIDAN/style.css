@@ -10,9 +10,15 @@
     justify-content: center;
     align-items: center;
   }
+
+  #logo{
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    z-index: 99;
+  }
   
  #imgBox {
-
     position: relative;
     display:flex;
     margin: 0 auto;
@@ -23,7 +29,6 @@
     background-color: #efefef;
     border: 1px dashed #cacaca;
     /*container内のwhite-spaceを無効化*/
-   
   }
 
  #imgBox img{
@@ -41,8 +46,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 75vw;
-    height: 75vh;
+    width: 95vw;
+    height: 95vh;
     border: 1px dashed #cacaca;
     background-color: #FAFAFA;
   }
@@ -64,8 +69,3 @@
     letter-spacing: 0.2em;
     font-size: 20px;
   }
-  
-  .tp-dfwv{
-    z-index: 4;
-  }
-  
