@@ -51,8 +51,8 @@ function init(){
 		loadLocalImage(fileList, PARAMS);
     
     dropZone.style.opacity = 0;
-    dropZone.style.zIndex =1;
-    container.style.zIndex = 99;
+    dropZone.style.zIndex =-1;
+    container.style.zIndex = 1;
     console.log( container.style.zIndex, dropZone.style.zIndex)
 	});
 

@@ -15,7 +15,7 @@
     position: fixed;
     top: 30px;
     left: 30px;
-    z-index: 99;
+   
   }
   
  #imgBox {
@@ -37,8 +37,6 @@
       margin: 0 10px;
       border: 1px dashed #9c9c9c;
   }
-
-
 
   #drop-zone {
     position: absolute;
