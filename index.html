@@ -1,37 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAIDAN | 縦長画像を分割するツール</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
-
-</head>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>画像を分割するオンラインツール</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="lib/tweakpane-3.0.8.min.js"></script>
+        <script src="lib/pixi.min.js"></script>
+        <script src="main.js"></script>
+    </head>
 <body>
-
     <div id="container">
-        <div id="imgBox"></div>
+        <button class="plusButton"></button>
+        <div id="imgBox">
+        </div>
     </div>
-
-    <div id="drop-zone"><p>分割したい画像をドロップ！</p></div>
-
     <h1 id="logo">
-        <img src ="assets/logo.svg" width="180"/>
+        <img src ="assets/logo.svg"/>
     </h1>
+    
+    <div id="drop-zone"><img src="assets/drop_text.svg" alt="分割したい画像をドロップ！"></div>
+    <div id="alert"></div>
 
-
-    <!-- アンケート -->
-    <a href="https://forms.gle/KHThpsvBKXipd6ik8"><button id="leftButton"><p>😄 アンケートにご協力ください 😄</p></button></a>
-    <button id="closeButton" onclick="this.style.display='none'; leftButton.style.display='none'">
-        <p>×閉じる</p>
-    </button>
-    <!-------------->
-
-
-
-    <script src="lib/tweakpane-3.0.8.min.js"></script>
-
-    </body>
-    </html>
+</body>
+</html>

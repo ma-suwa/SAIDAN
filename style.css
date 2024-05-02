@@ -1,6 +1,19 @@
 * {
   margin: 0;
   padding: 0;
+  transition: all 0.15s ease-out;
+  box-sizing: border-box;
+}
+
+:root {
+  --key-color: #0942DB;
+  --bg-color: #5d81e7;
+  --sub-color: #F3F6FD;
+}
+
+body{
+  background-image: radial-gradient(rgba(9, 66, 219, 0.2) 10%, #fff 0);
+	background-size: 16px 16px;
 }
 
 #container{
@@ -13,28 +26,38 @@
 
 #logo{
   position: fixed;
-  top: 30px;
-  left: 30px;
+  top: 20px;
+  left: 20px;
+  z-index: 9999; /* Adjust the z-index value as needed */
 }
 
 #imgBox {
+  transition: all 0.15s ease-out;
   position: relative;
-  display:flex;
+  display: none;
+  /* display: flex; */
   margin: 0 auto;
-  font-size: 0;
-  width: 960px;
+  width: 1040px;
   height: 540px;
   overflow: scroll;
-  background-color: #efefef;
-  border: 1px dashed #cacaca;
-  /*container内のwhite-spaceを無効化*/
+  background-color: var(--sub-color);
+  border: 1px solid var(--key-color);
+  box-shadow: 8px 8px 0 rgba(9, 66, 219, 0.7);
 }
 
-#imgBox img{
-  width: auto;
-  height: 100%;
-  margin: 0 10px;
-  border: 1px dashed #9c9c9c;
+#imgBox::-webkit-scrollbar {
+  width: 0px;
+  height: 20px;
+}
+
+#imgBox::-webkit-scrollbar-thumb {
+  background-color: var(--key-color);
+  border-radius: 10px;
+
+}
+
+#imgBox::-webkit-scrollbar-track {
+  background-color: rgba(9, 66, 219, 0.2);
 }
 
 #drop-zone {
@@ -43,11 +66,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  width: 95vw;
-  height: 95vh;
-  border: 1px dashed #cacaca;
-  background-color: #FAFAFA;
+  width: 80vw;
+  height: 60vh;
+  border: 1px dashed var(--key-color);
+  background-color: var(--sub-color);
   border-radius: 10px; /* Added border-radius */
+  z-index: 9998;
 }
 
 .second {
@@ -58,79 +82,119 @@
   height: 25vh;
 }
 
-#drop-zone > p{
+#drop-zone > img{
   position: absolute;
-  text-align: center;
+  height: 90%;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  letter-spacing: 0.2em;
-  font-size: 20px;
 }
 
-/***** アンケート *****/
+.saidanCanvas{
+  position: relative;
+  width: auto;
+  margin-right: 50px;
+  z-index: 3;
+}
 
-#leftButton {
-  position: fixed;
-  bottom: 1%;
-  left: 1%;
-  padding: 10px 20px;
-  background-color: rgb(187, 10, 10);
-  border-radius: 100px; /* Added border-radius */
+.saidanCanvas canvas{
+  cursor: grab !important;
+  height: 100%;
+  border: 1px dashed #ffffff;
+  background-color: var(--key-color);
+  background-image: linear-gradient(45deg, var(--bg-color) 25%, transparent 25%, transparent 75%, var(--bg-color) 75%),
+      linear-gradient(45deg, var(--bg-color) 25%, transparent 25%, transparent 75%, var(--bg-color) 75%); /* 市松模様になるようグラデーションで単色を入れる */
+  background-position: 0 0, 5px 5px;  /* 「0 0」と1マス（1色）の大きさ「30px 30px」をそれぞれ指定 */
+  background-size: 10px 10px;    
+}
+
+.saidanCanvas canvas:hover{
+  opacity: 0.8;
+}
+
+.saidanCanvas:last-child{
+  margin-right: 500px;
+}
+
+.copyButton{
+  content: "";
   cursor: pointer;
-  border: none;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4); /* Added box-shadow */
-  animation: buttonAnimation 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate; /* Added animation */
+  background-image: url("assets/copy-icon.svg");
+  background-repeat:no-repeat;
+  background-position: center;
+  background-size: 100%;
+  position: absolute;
+  font-weight: bold;
+  top: 50%;
+  right: 0;
+  width: 100%;
+  height: 50%;
+  border: 1px dashed #ffffff;
+  background-color:  rgba(9, 66, 219, 0.75);
+  z-index: 4;
 }
 
-#leftButton:hover{
-  opacity: 0.5;
+.copyButton:hover{
+  background-color:  rgba(9, 66, 219, 0.9);
+  background-repeat:repeat;
+  background-size:75%;
+  animation: loopAnimation 5s linear;
 }
 
-#leftButton p{
-  color: white;
-  font-size: 1vw;
-}
-
-#leftButton {
-  position: fixed;
-  bottom: 1%;
-  left: 1%;
-  padding: 10px 20px;
-  background-color: rgb(187, 10, 10);
-  border-radius: 100px; /* Added border-radius */
-  cursor: pointer;
-  border: none;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4); /* Added box-shadow */
-  animation: buttonAnimation 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate; /* Added animation */
-}
-
-#leftButton:hover{
-  opacity: 0.5;
-}
-
-#leftButton p{
-  color: white;
-  font-size: 1vw;
-}
-
-#closeButton {
-  position: fixed;
-  bottom: 7%;
-  left: 1%;
-  padding: 5px;
-  cursor: pointer;
-  font-size: 0.7vw;
-}
-
-
-@keyframes buttonAnimation {
+@keyframes loopAnimation {
   0% {
-    transform: translateY(0);
+    background-position: 50% 50%;
   }
   100% {
-    transform: translateY(-10px);
+    background-position: 100% 100%;
   }
 }
 
-/******************/
+.copyButton:active{
+  background-color:  rgba(69, 119, 255, 0.9);
+}
+
+.plusButton{
+  position: absolute;
+  content: "";
+  width: 50px;
+  height: 540px;
+  right: calc(50% - 520px);
+  border: dashed 1px var(--key-color);
+  background-image: url("assets/plus-split.svg");
+  background-color:  rgba(69, 119, 255, 0.5);
+  background-repeat:no-repeat;
+  background-position: center;
+  background-size: 100%;
+  display: none;
+  z-index: 4;
+}
+
+.plusButton:hover{
+  opacity: 0.8;
+  background-color:  rgba(9, 66, 219, 0.5);
+  background-repeat:repeat;
+  animation: loopAnimation 5s linear;
+}
+
+
+#alert {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color:var(--key-color);
+  color: #ffffff;
+  font-size: 16px;
+  text-align: center;
+  z-index: 9999;
+  display: none;
+}
+
+#alert.active {
+  display: block;
+}
+
+
+
