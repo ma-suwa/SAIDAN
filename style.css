@@ -37,7 +37,7 @@ body{
   display: none;
   /* display: flex; */
   margin: 0 auto;
-  width: 1040px;
+  width: 960px;
   height: 540px;
   overflow: scroll;
   background-color: var(--sub-color);
@@ -93,7 +93,7 @@ body{
 .saidanCanvas{
   position: relative;
   width: auto;
-  margin-right: 50px;
+  margin-right: 10px;
   z-index: 3;
 }
 
@@ -159,10 +159,11 @@ body{
   content: "";
   width: 50px;
   height: 540px;
-  right: calc(50% - 520px);
+  right: calc(50% - 550px);
   border: dashed 1px var(--key-color);
   background-image: url("assets/plus-split.svg");
   background-color:  rgba(69, 119, 255, 0.5);
+  box-shadow: 8px 8px 0 rgba(9, 66, 219, 0.7);
   background-repeat:no-repeat;
   background-position: center;
   background-size: 100%;
@@ -174,7 +175,18 @@ body{
   opacity: 0.8;
   background-color:  rgba(9, 66, 219, 0.5);
   background-repeat:repeat;
+  transform: translate(8px,8px);
+  box-shadow: 0px 0px 0 rgba(9, 66, 219, 0.7);
   animation: loopAnimation 5s linear;
+}
+
+#old{
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  font-size: 12px;
+  z-index: 9999;
+  color: var(--key-color);
 }
 
 
@@ -194,6 +206,51 @@ body{
 
 #alert.active {
   display: block;
+}
+
+#error {
+  position: fixed;
+  bottom: 70px;
+  left: 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color:#ee1a36;
+  color: #ffffff;
+  font-size: 16px;
+  text-align: center;
+  z-index: 9999;
+  display: none;
+}
+
+#alert.active {
+  display: block;
+}
+
+#allButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--key-color);
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#allButton:hover {
+  background-color: var(--bg-color);
+}
+
+#allButton:active {
+  background-color: #072bb5;
+}
+
+#allButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
 
 

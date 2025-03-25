@@ -13,19 +13,38 @@ document.addEventListener('DOMContentLoaded', () => {
         // }, 10000);
     }
 
+
+    const errorElement = document.getElementById('error');
+    function errorMessage(message) {
+        if(errorElement) {
+            errorElement.style.display = 'block';
+            errorElement.innerText = message;
+        }
+        setTimeout(() => {
+            errorElement.style.display = 'none';
+        }, 5000);
+    }
+
     const PARAMS = {
         split: 3
     };
     const pane = new Tweakpane.Pane();
-    pane.addInput(PARAMS, 'split', { min: 0, max: 15, step: 1 })
+    pane.addInput(PARAMS,
+         'split', { min: 0, max: 15, step: 0.5 })
         .on('change', (ev) => {
             if (ev.last) {
                 allImgRemove();
+                app = []; // Reset the app array
                 saidan(image, PARAMS.split);
             }
         });
-
-
+    const btn = pane.addButton({
+        title: 'allcopy',
+        label: '全てコピー',   // optional
+        });
+        btn.on('click', () => {
+            copyAllImagesToClipboard();
+        });
 
     const Application = PIXI.Application;
     const Loader = PIXI.Loader.shared;
@@ -68,14 +87,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
             let imageSrc = reader.result;
             const img = new Image();
+
             img.onload = function() {
                 const maxHeight = 15000; // Set the maximum height for the image
                 let width = img.width;
                 let height = img.height;
+
+
+                // 画像の比率チェック (横:縦 が 1:3 未満なら警告)
+                if (width / height >= 1 / 3) {
+                    errorMessage("そこまで縦長じゃないから、このツールは必要ないかもね");
+                }
     
                 // Check if the image exceeds the maximum height
                 if (height > maxHeight) {
-                    alertMessage("画像サイズが大きすぎるためリサイズしています...");
+                    errorMessage("画像サイズが大きすぎるためリサイズしています...");
     
                     const aspectRatio = width / height;
                     height = maxHeight;
@@ -174,16 +200,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
+    
+
     function buttonClickHandler() {
         let index = buttonList.indexOf(this);
         let imageBase64 = app[index].renderer.extract.base64();
         copyImageToClipboard(app[index], imageBase64);
     }
 
+
+
     function copyImageToClipboard(app, imageBase64) {
         const img = new Image();
         img.src = imageBase64;
         img.onload = function () {
+            alertMessage("コピー中...");
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             const width = app.renderer.width;
@@ -194,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             canvas.toBlob((blob) => {
                 const item = new ClipboardItem({ 'image/png': blob });
-                navigator.clipboard.write([item]).then(() => {
+                navigator.clipboard.write([item]).then(() => {                    
                     alertMessage("コピーが完了しました！");
                 }).catch((error) => {
                     console.error('Failed to copy image to clipboard:', error);
@@ -203,6 +235,70 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    async function copyAllImagesToClipboard() {
+        if (app.length === 0) {
+            errorMessage("コピーする画像がありません");
+            return;
+        }
+    
+        alertMessage("コピー中...");
+    
+        const margin = 25; // 画像の間隔
+        const totalWidth = app.reduce((sum, instance) => sum + instance.renderer.width + margin, -margin);
+        const totalHeight = app[0].renderer.height;
+        const canvas = document.createElement('canvas');
+        canvas.width = totalWidth;
+        canvas.height = totalHeight;
+        const ctx = canvas.getContext('2d');
+    
+        let offsetX = 0;
+    
+        // **明示的にレンダリングを更新**
+        app.forEach(instance => {
+            instance.renderer.render(instance.stage);
+        });
+    
+        const drawImages = app.map(instance => {
+            return new Promise((resolve, reject) => {
+                // **明示的にbase64を取得する前に描画を更新**
+                instance.renderer.render(instance.stage);
+    
+                const img = new Image();
+                img.src = instance.renderer.extract.base64();
+    
+                img.onload = function () {
+                    ctx.drawImage(img, offsetX, 0, instance.renderer.width, instance.renderer.height);
+                    offsetX += instance.renderer.width + margin;
+                    resolve();
+                };
+    
+                img.onerror = function () {
+                    reject(new Error(`画像のロードに失敗しました: ${img.src}`));
+                };
+            });
+        });
+    
+        try {
+            await Promise.all(drawImages);
+    
+            const blob = await new Promise((resolve, reject) => {
+                canvas.toBlob(blob => {
+                    if (blob) {
+                        resolve(blob);
+                    } else {
+                        reject(new Error("画像のBlob生成に失敗しました"));
+                    }
+                }, 'image/png');
+            });
+    
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            alertMessage("コピーが完了しました！");
+        } catch (error) {
+            console.error(error);
+            errorMessage(error.message);
+        }
+    }
+    
     function setPlusButton(){
         const plusButton = document.getElementsByClassName('plusButton')[0];
         if (plusButton) {
@@ -253,4 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
             imgBox.removeChild(imgBox.firstChild);
         }
     }
+
+    
 });
